@@ -4,12 +4,13 @@ import (
 	"context"
 	"crypto/rand"
 	"fmt"
-	desc "github.com/vadskev/chat-server/pkg/chat_v1"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 	"log"
 	"math/big"
 	"net"
+
+	desc "github.com/vadskev/chat-server/pkg/chat_v1"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 const grpcPort = 50051
@@ -18,7 +19,7 @@ type server struct {
 	desc.UnimplementedChatV1Server
 }
 
-func (s *server) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
+func (s *server) Create(_ context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
 	log.Printf("Create: username: %v", req.Usernames)
 
 	id := genRandomID()
@@ -27,12 +28,12 @@ func (s *server) Create(ctx context.Context, req *desc.CreateRequest) (*desc.Cre
 	}, nil
 }
 
-func (s *server) Delete(ctx context.Context, req *desc.DeleteRequest) (*desc.DeleteResponse, error) {
+func (s *server) Delete(_ context.Context, req *desc.DeleteRequest) (*desc.DeleteResponse, error) {
 	log.Printf("Delete: id: %v", req.Id)
 	return &desc.DeleteResponse{}, nil
 }
 
-func (s *server) SendMessage(ctx context.Context, req *desc.SendMessageRequest) (*desc.SendMessageResponse, error) {
+func (s *server) SendMessage(_ context.Context, req *desc.SendMessageRequest) (*desc.SendMessageResponse, error) {
 	log.Printf("SendMessage: From: %v, Text: %v, Timestamp: %v ", req.From, req.Text, req.Timestamp)
 	return &desc.SendMessageResponse{}, nil
 }

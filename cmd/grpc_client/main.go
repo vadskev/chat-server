@@ -2,12 +2,13 @@ package main
 
 import (
 	"context"
+	"log"
+	"time"
+
 	"github.com/fatih/color"
 	desc "github.com/vadskev/chat-server/pkg/chat_v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"log"
-	"time"
 )
 
 const (
@@ -19,7 +20,13 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed toconnect to server: %v", err)
 	}
-	defer conn.Close()
+
+	defer func() {
+		err = conn.Close()
+		if err != nil {
+			log.Fatalf("failed to close server: %v", err)
+		}
+	}()
 
 	c := desc.NewChatV1Client(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
