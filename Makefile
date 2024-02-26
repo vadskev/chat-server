@@ -14,11 +14,10 @@ get-deps:
 	go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
-
 generate:
-	make generate-auth-api
+	make generate-chat-api
 
-generate-auth-api:
+generate-chat-api:
 	mkdir -p pkg/chat_v1
 	protoc --proto_path api/chat_v1 \
 	--go_out=pkg/chat_v1 --go_opt=paths=source_relative \
